@@ -30,5 +30,5 @@ hist(subData[,3], col = "Red", main = "Global Active Power", xlab = "Global Acti
 # Copy to PNG file for submission
 dev.copy(png,file="plot1.png")
 
-#  Close device
+# Close device
 dev.off()
