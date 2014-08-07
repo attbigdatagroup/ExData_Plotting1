@@ -1,15 +1,34 @@
-# Generating histogram plot in R for Exploratory Data Analysis Assignment 1
-# Ron Mashrouteh May 11, 2014
+# Exploratory Data Analysis
+# Project 1
 
-# read the data form the .txt file
-data <- read.table("~/household_power_consumption.txt",header = T, sep = ";",as.is=T,na.strings = "?")
-# convert and assing the formating for data field
-data$Date <- as.Date(data$Date,"%d/%m/%Y")
-# filter the date value based on the given dates
-data <- data[data$Date == '2007-02-01' | data$Date == '2007-02-02',]
-# loop through the 9 variables (9 columns)
-for(i in 3:9) data[,i] <- as.numeric(data[,i])
+# Clean upworkspace
+rm(list=ls())
 
-# Generate the graph
-png("plot1.png")
-with(data,hist(Global_active_power,main = "Global Active Power",col='red',xlab = 'Global Active Power (kilowatts)'))
+# Load data
+path <- "~/Downloads/household_power_consumption.txt"
+myData <- read.table(path,header=TRUE,sep=";",colClasses="character")
+
+# Convert to Date/Time clsases
+myData[,1] <- as.Date(myData$Date,"%d/%m/%Y")
+myData[,2] <- as.Date(myData$Time,"%H/%M/%S")
+
+# Create a subset of the data between 2007-02-01 and 2007-02-02
+subData <- subset(myData, myData$Date %in% as.Date(c("2007-02-01","2007-02-02")))
+
+# Cast the rest of the columns as numeric
+subData[,3] <- as.numeric(subData[,3])
+subData[,4] <- as.numeric(subData[,4])
+subData[,5] <- as.numeric(subData[,5])
+subData[,6] <- as.numeric(subData[,6])
+subData[,7] <- as.numeric(subData[,7])
+subData[,8] <- as.numeric(subData[,8])
+subData[,9] <- as.numeric(subData[,9])
+
+# Create Plot 1
+hist(subData[,3], col = "Red", main = "Global Active Power", xlab = "Global Active Power (kilowatts)")
+
+# Copy to PNG file for submission
+dev.copy(png,file="plot1.png")
+
+# Close device
+dev.off()
